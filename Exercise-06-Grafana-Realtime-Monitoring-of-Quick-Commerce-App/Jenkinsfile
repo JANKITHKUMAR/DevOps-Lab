@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    stages {
+        stage('Pre-check Docker') {
+            steps {
+                script {
+                    sh 'docker --version'
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t delivery_metrics .'
+            }
+        }
+        stage('Run Monitoring Stack') {
+            steps {
+                sh 'docker compose up -d'
+            }
+        }
+    }
+}
